@@ -944,13 +944,17 @@
   }
 
   /* ---------- reveal ---------- */
-  :global(.section-head),
-  :global(.card),
-  :global(.pstep),
-  :global(.tool),
-  :global(.compare),
-  :global(.terminal),
-  :global(.cta) {
+  /* The hidden initial state is gated behind html.js, set by an inline script
+     in app.html. Without JS - crawlers, archive.org, scripts disabled - the
+     class is absent, so these sections render fully visible instead of stuck
+     at opacity 0 waiting for an IntersectionObserver that never runs. */
+  :global(.js .section-head),
+  :global(.js .card),
+  :global(.js .pstep),
+  :global(.js .tool),
+  :global(.js .compare),
+  :global(.js .terminal),
+  :global(.js .cta) {
     opacity: 0;
     transform: translateY(18px);
     transition:
@@ -1004,13 +1008,13 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    :global(.section-head),
-    :global(.card),
-    :global(.pstep),
-    :global(.tool),
-    :global(.compare),
-    :global(.terminal),
-    :global(.cta) {
+    :global(.js .section-head),
+    :global(.js .card),
+    :global(.js .pstep),
+    :global(.js .tool),
+    :global(.js .compare),
+    :global(.js .terminal),
+    :global(.js .cta) {
       opacity: 1;
       transform: none;
     }

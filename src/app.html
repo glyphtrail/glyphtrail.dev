@@ -7,6 +7,13 @@
     <meta name="theme-color" content="#0b0f17" />
     <meta name="color-scheme" content="dark" />
 
+    <!-- Progressive enhancement: mark JS as available before first paint so
+         scroll-reveal effects only apply with JS. No-JS clients (crawlers,
+         archive.org) never get the class and see all content immediately. -->
+    <script>
+      document.documentElement.classList.add('js');
+    </script>
+
     <title>glyphtrail - dependency search & blast radius for coding agents</title>
     <meta
       name="description"
