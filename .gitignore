@@ -24,3 +24,7 @@ vite.config.ts.timestamp-*
 
 # Yarn
 .yarn/install-state.gz
+
+# Task
+.task/
+
