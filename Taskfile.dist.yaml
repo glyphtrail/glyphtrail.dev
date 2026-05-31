@@ -86,8 +86,9 @@ tasks:
     desc: Interactively upgrade dependencies (Yarn)
     aliases: [up]
     deps: [_check_yarn]
+    interactive: true
     cmds:
-      - '{{.RUN}} up -i "*"'
+      - '{{.RUN}} upgrade-interactive'
 
   ci:
     desc: Full CI sequence (lint + check + build)
