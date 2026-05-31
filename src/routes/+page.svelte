@@ -385,7 +385,12 @@
     </nav>
   </div>
   <div class="container footer-bottom">
-    <span>© {new Date().getFullYear()} glyphtrail</span>
+    <span>
+      © {new Date().getFullYear()}
+      <a class="footer-author" href="https://github.com/sunsided" rel="me noopener" target="_blank"
+        >Markus Mayer</a
+      >
+    </span>
     <span>Built with SvelteKit · deployed on GitHub Pages</span>
   </div>
 </footer>
@@ -930,6 +935,14 @@
     border-top: 1px solid var(--border);
     color: var(--faint);
     font-size: 0.82rem;
+  }
+  .footer-author {
+    color: var(--muted);
+    font-weight: 500;
+    transition: color 0.15s ease;
+  }
+  .footer-author:hover {
+    color: var(--text);
   }
 
   /* ---------- reveal ---------- */
