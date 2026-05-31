@@ -17,7 +17,33 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  validate:
+    name: ${{ matrix.task }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        task: [lint, check]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Run ${{ matrix.task }}
+        run: yarn ${{ matrix.task }}
+
   build:
+    needs: validate
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
