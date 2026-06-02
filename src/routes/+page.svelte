@@ -186,14 +186,21 @@
   };
 
   const agentNames = Object.keys(codingAgentImportance);
-  const totalAgentWeight = agentNames.reduce((sum, name) => sum + codingAgentImportance[name], 0);
+  // Bias sampling toward the better-known agents: the pick probability scales
+  // with importance raised to this power, so high-importance names show up
+  // markedly more often than their raw values alone would give.
+  const AGENT_EMPHASIS = 2.2;
+  const agentWeights = new Map(
+    agentNames.map((name) => [name, codingAgentImportance[name] ** AGENT_EMPHASIS])
+  );
+  const totalAgentWeight = agentNames.reduce((sum, name) => sum + (agentWeights.get(name) ?? 0), 0);
 
   // Weighted random pick, avoiding an immediate repeat of `previous`.
   function pickAgent(previous?: string): string {
     for (let attempt = 0; attempt < 8; attempt += 1) {
       let r = Math.random() * totalAgentWeight;
       for (const name of agentNames) {
-        r -= codingAgentImportance[name];
+        r -= agentWeights.get(name) ?? 0;
         if (r <= 0) {
           if (name !== previous) {
             return name;
