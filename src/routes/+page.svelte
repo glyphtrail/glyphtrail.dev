@@ -4,22 +4,14 @@
 
   const GITHUB = 'https://github.com/glyphtrail/glyphtrail';
   let { data }: { data: PageData } = $props();
-  const lastUpdatedMeta = $derived.by(() => {
+  const lastUpdatedIso = $derived.by(() => {
     const date = new Date(data.lastUpdated);
     const dateMs = date.getTime();
     if (Number.isNaN(dateMs) || dateMs > Date.now() + 5 * 60_000) {
-      return { label: 'unknown', datetime: undefined };
+      return undefined;
     }
 
-    return {
-      label: date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        timeZone: 'UTC'
-      }),
-      datetime: date.toISOString()
-    };
+    return date.toISOString();
   });
 
   // Reveal-on-scroll action.
@@ -108,6 +100,13 @@
   ];
 </script>
 
+<svelte:head>
+  {#if lastUpdatedIso}
+    <meta name="last-modified" content={lastUpdatedIso} />
+    <meta property="article:modified_time" content={lastUpdatedIso} />
+  {/if}
+</svelte:head>
+
 <!-- ===================== NAV ===================== -->
 <header class="nav">
   <div class="container nav-inner">
@@ -182,13 +181,6 @@
         <li>Rust-native</li>
         <li>Graph-powered</li>
         <li>MCP-native</li>
-        <li>
-          {#if lastUpdatedMeta.datetime}
-            <time datetime={lastUpdatedMeta.datetime}>Last updated {lastUpdatedMeta.label}</time>
-          {:else}
-            Last updated {lastUpdatedMeta.label}
-          {/if}
-        </li>
       </ul>
     </div>
   </section>
