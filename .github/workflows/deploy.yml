@@ -71,6 +71,9 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    env:
+      INDEXNOW_KEY: 1ea6f48d7fdd6165589fd1498b68491e
+      INDEXNOW_HOST: glyphtrail.dev
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -78,3 +81,12 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+
+      - name: Ping IndexNow
+        if: steps.deployment.outcome == 'success'
+        run: |
+          curl --fail --show-error --silent \
+            --request POST \
+            --url 'https://api.indexnow.org/indexnow' \
+            --header 'Content-Type: application/json; charset=utf-8' \
+            --data "{\"host\":\"${INDEXNOW_HOST}\",\"key\":\"${INDEXNOW_KEY}\",\"urlList\":[\"https://${INDEXNOW_HOST}/\",\"https://${INDEXNOW_HOST}/sitemap.xml\"]}"
