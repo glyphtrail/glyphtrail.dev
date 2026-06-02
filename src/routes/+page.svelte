@@ -81,7 +81,7 @@
   const tools = [
     {
       name: 'query',
-      d: 'Graph lookups and structural code search: def, callers, callees, neighbours'
+      d: 'Graph lookups and structural code search: def, callers, callees, neighbors'
     },
     { name: 'impact', d: 'Blast radius for a symbol, file or diff - across repos' },
     { name: 'endpoints', d: 'The API and route surface of the codebase' },
