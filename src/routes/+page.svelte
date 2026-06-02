@@ -4,11 +4,22 @@
 
   const GITHUB = 'https://github.com/glyphtrail/glyphtrail';
   let { data }: { data: PageData } = $props();
-  const lastUpdatedLabel = new Date(data.lastUpdated).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    timeZone: 'UTC'
+  const lastUpdatedMeta = $derived.by(() => {
+    const date = new Date(data.lastUpdated);
+    const dateMs = date.getTime();
+    if (Number.isNaN(dateMs) || dateMs > Date.now() + 5 * 60_000) {
+      return { label: 'unknown', datetime: undefined };
+    }
+
+    return {
+      label: date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        timeZone: 'UTC'
+      }),
+      datetime: date.toISOString()
+    };
   });
 
   // Reveal-on-scroll action.
@@ -171,7 +182,13 @@
         <li>Rust-native</li>
         <li>Graph-powered</li>
         <li>MCP-native</li>
-        <li>Last updated {lastUpdatedLabel}</li>
+        <li>
+          {#if lastUpdatedMeta.datetime}
+            <time datetime={lastUpdatedMeta.datetime}>Last updated {lastUpdatedMeta.label}</time>
+          {:else}
+            Last updated {lastUpdatedMeta.label}
+          {/if}
+        </li>
       </ul>
     </div>
   </section>
