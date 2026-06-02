@@ -101,18 +101,108 @@
   ];
 
   const codingAgents = [
+    // Major agentic CLIs / terminal agents
     'claude',
+    'claude-code',
     'codex',
-    'copilot',
-    'opencode',
-    'kilo',
-    'cursor',
-    'aider',
+    'codex-cli',
     'gemini',
-    'cody',
-    'tabnine',
+    'gemini-cli',
+    'antigravity',
+    'opencode',
+    'aider',
+    'goose',
+    'cline',
+    'roo-code',
+    'crush',
+    'pi',
+    'swe-agent',
+    'openhands',
+    'devin',
+    'jules',
+    'factory',
+    'factory-droid',
+    'qwen-code',
+    'amp',
+    'sourcegraph-amp',
+
+    // IDE/editor agents and assistants
+    'copilot',
+    'github-copilot',
+    'cursor',
+    'windsurf',
+    'cascade',
     'continue',
-    'windsurf'
+    'tabnine',
+    'cody',
+    'sourcegraph-cody',
+    'zed',
+    'jetbrains-ai',
+    'replit',
+    'replit-ghostwriter',
+    'amazon-q',
+    'amazon-q-developer',
+    'codeium',
+    'supermaven',
+    'kilo',
+    'kilo-code',
+    'kiro',
+    'trae',
+    'marscode',
+
+    // Cloud / autonomous software engineering agents
+    'devin-ai',
+    'cognition-devin',
+    'jules-google',
+    'sweep',
+    'sweep-ai',
+    'bloop',
+    'mutable',
+    'cosine',
+    'fine',
+    'greptile',
+    'codegen',
+    'ellipsis',
+    'dosu',
+    'potpie',
+    'entelligence',
+    'poolside',
+    'magic',
+    'lovable',
+    'bolt',
+    'bolt-new',
+    'v0',
+    'same',
+    'manus',
+
+    // Review / PR / repo agents
+    'codecov-ai',
+    'coderabbit',
+    'graphite-diamond',
+    'reviewpad',
+    'sourcery',
+    'sonar',
+    'sonarqube-ai',
+    'snyk',
+    'snyk-code',
+    'semgrep-assistant',
+    'deepcode',
+    'qodo',
+    'qodo-merge',
+    'qodo-gen',
+    'codium',
+    'codium-ai',
+
+    // Older / adjacent but still seen in repos or configs
+    'blackbox',
+    'askcodi',
+    'phind',
+    'sourcegraph',
+    'bito',
+    'codewhisperer',
+    'watsonx-code-assistant',
+    'intellicode',
+    'kite'
   ];
   const maxAgentLength = Math.max('agents'.length, ...codingAgents.map((name) => name.length));
 
@@ -133,25 +223,25 @@
         if (currentLength > 0) {
           currentLength -= 1;
           animatedAgent = agent.slice(0, currentLength);
-          timer = setTimeout(nextStep, 45);
+          timer = setTimeout(nextStep, 60);
           return;
         }
 
         erasing = false;
         currentAgent = (currentAgent + 1) % codingAgents.length;
-        timer = setTimeout(nextStep, 130);
+        timer = setTimeout(nextStep, 360);
         return;
       }
 
       if (currentLength < agent.length) {
         currentLength += 1;
         animatedAgent = agent.slice(0, currentLength);
-        timer = setTimeout(nextStep, 75);
+        timer = setTimeout(nextStep, Math.floor(65 + Math.random() * 55));
         return;
       }
 
       erasing = true;
-      timer = setTimeout(nextStep, 420);
+      timer = setTimeout(nextStep, 950);
     };
 
     nextStep();
