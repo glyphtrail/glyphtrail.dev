@@ -114,6 +114,7 @@
     'continue',
     'windsurf'
   ];
+  const maxAgentLength = Math.max('agents'.length, ...codingAgents.map((name) => name.length));
 
   let animatedAgent = $state('agents');
 
@@ -153,7 +154,7 @@
       timer = setTimeout(nextStep, 420);
     };
 
-    timer = setTimeout(nextStep, 120);
+    nextStep();
 
     return () => {
       if (timer) {
@@ -222,7 +223,9 @@
     <div class="container hero-inner">
       <span class="eyebrow">Code intelligence for AI coding agents</span>
       <h1 class="hero-title">
-        Stop letting <span class="hero-agent">{animatedAgent}</span><br />
+        Stop letting <span class="hero-agent" style={`--agent-width:${maxAgentLength}ch`}
+          >{animatedAgent}</span
+        ><br />
         <span class="gradient-text">guess from grep.</span>
       </h1>
       <p class="hero-sub">
@@ -602,7 +605,7 @@
   }
   .hero-agent {
     display: inline-block;
-    min-width: 8ch;
+    min-width: var(--agent-width, 8ch);
     text-align: left;
   }
   .hero-agent::after {
